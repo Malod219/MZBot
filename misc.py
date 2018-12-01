@@ -4,6 +4,7 @@ import aiohttp
 import async_timeout
 from bs4 import BeautifulSoup
 import json
+import sys
 
 #bot Location CommandParent
 class misc:
@@ -53,6 +54,15 @@ class misc:
                     pass
                 servs+=(str(key).upper()+" has "+str(value)+" online\n")
             await self.bot.send_message(ctx.message.channel,("```"+servs+"```"))
+            
+    @misc.command(pass_context=True)
+    async def kill(self,ctx):
+        if ctx.message.author.server_permissions.administrator==True:
+            await self.bot.say('Bot being killed')
+            sys.exit()
+            
+        else:
+            await self.bot.say("You don't have Administrator permissions for this command")
                     
 def setup(bot):
     bot.add_cog(misc(bot))
