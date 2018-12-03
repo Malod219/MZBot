@@ -51,8 +51,8 @@ initial_extensions=["namemc",
                     "reddit",
                     "wiki",
                     "misc",
-                    "rss",
-                    "twitter"
+                    #"rss",
+                    #"twitter"
         ]
 channellist=[]
 
