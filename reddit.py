@@ -5,6 +5,11 @@ from discord.ext import commands
 import credentials
 import time
 
+reddit = praw.Reddit(
+    client_id=credentials.client_id,
+    client_secret=credentials.client_secret,
+    user_agent=credentials.user_agent)
+
 with open("config.cfg", "r") as configFile:
     config = configFile.readlines()
 
@@ -14,27 +19,30 @@ class RedditCog:
 
         self.bot = bot
         self.bot.enabled = True
-
+    
     async def on_ready(self):
 
-        reddit = praw.Reddit(
-            client_id=credentials.client_id,
-            client_secret=credentials.client_secret,
-            user_agent=credentials.user_agent)
+        async def start(self):
+            reddit = praw.Reddit(
+                client_id=credentials.client_id,
+                client_secret=credentials.client_secret,
+                user_agent=credentials.user_agent)
+            
+            start_time = time.time()
+            subreddit = reddit.subreddit(config[1][10:-1])
+            postingChannel = self.bot.get_channel(config[2][18:-1])
+            currentPost = ""
+            while self.bot.enabled == True:
+                posts = subreddit.new(limit=1)
+                for post in posts:
+                    if post == currentPost:
+                        await asyncio.sleep(60)
+                    elif post.created_utc > start_time and post.title != currentPost:
+                        await self.bot.send_message(postingChannel, '```New Reddit Post in r/'+config[1][10:-1]+':\n' + post.title + '\nPostURL: ' + post.url + '```')
+                        currentPost = post.title
+                await asyncio.sleep(60)
 
-        start_time = time.time()
-        subreddit = reddit.subreddit('minez')
-        postingChannel = self.bot.get_channel(config[2][18:0])
-        currentPost = ""
-        while self.bot.enabled == True:
-            posts = subreddit.new(limit=1)
-            for post in posts:
-                if post == currentPost:
-                    await asyncio.sleep(60)
-                elif post.created_utc > start_time and post.title != currentPost:
-                    await self.bot.send_message(postingChannel, '```New Reddit Post in r/'+config[1][10:]+':\n' + post.title + '\nPostURL: ' + post.url + '```')
-                    currentPost = post.title
-                    await asyncio.sleep(60)
+        self.bot.loop.create_task(start(self))
 
     @commands.group(
         pass_context=True, brief='\n    addchannel\n    removechannel')
