@@ -5,13 +5,13 @@ import platform
 from datetime import datetime
 from keep_alive import keep_alive
 
-#Credentials, Tokens etc
+# Credentials, Tokens etc
 import credentials
 
 # Modify command prefix
 bot = Bot(description="PiPy Bot", command_prefix=">", pm_help = False)
 
-#Prints generic bot information to consol
+# Prints generic bot information to consol
 @bot.event
 async def on_ready():
         print('Logged in as '+bot.user.name+' (ID:'+bot.user.id+') | Connected to '+str(len(bot.servers))+' servers | Connected to '+str(len(set(bot.get_all_members())))+' users')
@@ -51,15 +51,15 @@ initial_extensions=["namemc",
                     "reddit",
                     "wiki",
                     "misc",
-                    #"rss",
+                    "rss",
                     #"twitter"
         ]
 channellist=[]
 
 
 if __name__=='__main__':
+    keep_alive()
+    while (True):
         for extension in initial_extensions:
-                bot.load_extension(extension)
-
-keep_alive()
-bot.run(credentials.bot_token)
+            bot.load_extension(extension)
+        bot.run(credentials.bot_token)
