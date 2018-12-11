@@ -56,10 +56,8 @@ initial_extensions=["namemc",
         ]
 channellist=[]
 
-
-if __name__=='__main__':
-    keep_alive()
-    while (True):
-        for extension in initial_extensions:
-            bot.load_extension(extension)
-        bot.run(credentials.bot_token)
+keep_alive()
+for extension in initial_extensions:
+    bot.load_extension(extension)
+while (True):
+    bot.run(credentials.bot_token)
