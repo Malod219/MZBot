@@ -1,4 +1,5 @@
 import discord
+from discord import Embed
 from discord.ext import commands
 import aiohttp
 import async_timeout
@@ -56,7 +57,8 @@ async def coords(client, channel, author, args):
                 for link in links:
                     if 'minez' in str(link):
                         url=link['href']
-                        await client.send_message(channel,"Coordinates for "+name+" are at "+str(link.string)+'\nOn the MineZ Map: '+url)
+                        embed = Embed(title="Coordinates for "+name.replace("-"," ").capitalize(), description=str(link.string)+"\nOn the MineZ Map: "+url, color=0xeee657)
+                        await client.send_message(channel,embed=embed)
 
 async def legendarylist(client, channel, author, args):
     search=args.lower()
