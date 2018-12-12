@@ -3,9 +3,6 @@ import discord
 import feedparser
 import asyncio
 import praw
-from aiohttp import ClientSession
-from json import loads
-from async_timeout import timeout
 
 import credentials
 
@@ -15,7 +12,7 @@ async def rssWatch(client):
     oldDate = None
     postingChannel = discord.Object(id='518109463446683652')
     rss_url="https://shotbow.net/forum/forums/-/index.rss"
-    await client.send_message(postingChannel, '*RSS Operational*')
+    await client.send_message(postingChannel, '```RSS Operational```')
 
     while True:
         feed=feedparser.parse(rss_url)
@@ -43,7 +40,7 @@ async def redditWatch(client, config):
     start_time = time.time()
     subreddit = reddit.subreddit(config[1][10:-1])
     postingChannel = client.get_channel(config[2][18:-1])
-    await client.send_message(postingChannel, '*Reddit Operational*')
+    await client.send_message(postingChannel, '```Reddit Operational```')
     currentPost = ""
     while True:
         posts = subreddit.new(limit=1)
