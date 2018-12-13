@@ -71,4 +71,5 @@ async def on_message(message):
 
 
 keep_alive()
-client.run(credentials.bot_token)
+while(True):
+    client.run(credentials.bot_token)
